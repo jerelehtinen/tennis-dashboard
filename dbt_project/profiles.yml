@@ -1,0 +1,9 @@
+dbt_project:
+    target: dev
+    outputs:
+        dev:
+            type: duckdb
+            path: /data/tennisdb.duckdb
+            schema: dbt_test
+            extensions:
+                - parquet

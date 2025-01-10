@@ -1,0 +1,35 @@
+services:
+  dlt:
+    build:
+      context: .
+      dockerfile: dockerfile-dlt
+    volumes:
+      - ./data:/data
+      - ./dlt_project:/app/dlt_project
+    stdin_open: true  # interactive session
+    tty: true         # open terminal
+    command: bash
+
+  dbt:
+    build:
+      context: .
+      dockerfile: dockerfile-dbt
+    volumes:
+      - ./data:/data
+      - ./dbt_project:/app/dbt_project
+    stdin_open: true  # interactive session
+    tty: true         # open terminal
+    command: bash
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: dockerfile-streamlit
+    volumes:
+      - ./data:/data
+      - ./streamlit_project:/app/streamlit_project
+    ports:
+      - "8501:8501"
+    stdin_open: true  # interactive session
+    tty: true         # open terminal
+    command: bash

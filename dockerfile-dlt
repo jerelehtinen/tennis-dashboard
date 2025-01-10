@@ -1,0 +1,10 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+COPY ./dlt_project/ ./dlt_project
+
+RUN pip install "dlt[duckdb]"
+RUN pip install python-dotenv
+
+CMD ["bash"]
