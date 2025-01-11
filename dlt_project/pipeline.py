@@ -38,6 +38,18 @@ def tennis_source():
                 "endpoint": {
                     "path": pastMatchesPath
                 }
+            },
+            {
+                "name": "leagues",
+                "endpoint": {
+                    "path": "leagues"
+                }
+            },
+            {
+                "name": "standings",
+                "endpoint": {
+                    "path": "standings"
+                }
             }
         ],
     }

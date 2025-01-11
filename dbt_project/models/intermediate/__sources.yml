@@ -6,3 +6,5 @@ sources:
     tables:
       - name: future_matches_by_date__matches
       - name: past_matches_by_date__matches
+      - name: standings__competitors
+      - name: leagues
