@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: tennis_raw
+    schema: tennis_stg
+    tables:
+      - name: future_matches_by_date__matches
+      - name: past_matches_by_date__matches

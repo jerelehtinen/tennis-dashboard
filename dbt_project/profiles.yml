@@ -4,6 +4,6 @@ dbt_project:
         dev:
             type: duckdb
             path: /data/tennisdb.duckdb
-            schema: dbt_test
+            schema: dbt_tennis
             extensions:
                 - parquet
