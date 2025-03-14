@@ -19,17 +19,21 @@ services:
       - ./dbt_project:/app/dbt_project
     stdin_open: true  # interactive session
     tty: true         # open terminal
+    depends_on:
+      dlt:
+        condition: service_completed_successfully  # Ensure dlt finishes before dbt
     command: dbt build
 
   streamlit:
     build:
       context: .
       dockerfile: dockerfile-streamlit
-    volumes:
-      - ./data/tennisdb.duckdb:/data/tennisdb.duckdb
-      - ./streamlit_project:/app/streamlit_project
     ports:
       - "8501:8501"
-    stdin_open: true  # interactive session
-    tty: true         # open terminal
-    command: bash
+    volumes:
+      - ./streamlit_project:/app/streamlit_project
+    stdin_open: true
+    tty: true
+    depends_on:
+      dbt:
+        condition: service_completed_successfully  # Ensure dbt finishes before streamlit
