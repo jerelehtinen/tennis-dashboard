@@ -4,7 +4,6 @@ sources:
   - name: tennis_raw
     schema: tennis_stg
     tables:
-      - name: future_matches_by_date__matches
-      - name: past_matches_by_date__matches
+      - name: past_month_matches__matches
       - name: standings__competitors
       - name: leagues

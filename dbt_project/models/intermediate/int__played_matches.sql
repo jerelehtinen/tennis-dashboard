@@ -1,6 +1,13 @@
+{{
+  config(
+    materialized = 'incremental',
+    unique_key = 'id',
+    )
+}}
+
 with matches as (
     select *
-    from {{ source('tennis_raw', 'past_matches_by_date__matches') }}
+    from {{ source('tennis_raw', 'past_month_matches__matches') }}
 ),
 
 leagues as (
