@@ -6,5 +6,6 @@ COPY ./dlt_project/ ./dlt_project
 
 RUN pip install "dlt[duckdb]"
 RUN pip install python-dotenv
+RUN pip install duckdb
 
 CMD ["bash"]

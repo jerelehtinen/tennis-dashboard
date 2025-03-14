@@ -1,6 +1,8 @@
 import dlt
 from dlt.sources.rest_api import RESTAPIConfig, rest_api_resources
 from dotenv import load_dotenv
+from dlt.sources.helpers.rest_client.paginators import OffsetPaginator
+from dlt.sources.helpers.rest_client import RESTClient
 import os
 from datetime import datetime
 
@@ -12,9 +14,11 @@ from datetime import datetime
 load_dotenv()
 api_key = os.getenv("API_KEY")
 
-today = datetime.now().strftime('%Y-%m-%d')
-futureMatchesPath = "matches-by-date?date=gt." + today
-pastMatchesPath = "matches-by-date?date=lt." + today
+# build path for matches in the past month, excluding today to avoid not complete matches
+monthAgo = datetime.now().replace(month=datetime.now().month-1).strftime('%Y-%m-%d')
+yesterday = datetime.now().replace(day=datetime.now().day-1).strftime('%Y-%m-%d')
+pastMonthMatchesPath = "matches-by-date?date=lt." + yesterday + "&date=gt." + monthAgo
+
 
 ### source ###
 @dlt.source
@@ -26,17 +30,14 @@ def tennis_source():
                 "Authorization": "Bearer " + api_key
             }
         },
+        "resource_defaults": {
+            "write_disposition": "replace"
+        },
         "resources": [
             {
-                "name": "future_matches_by_date",
+                "name": "past_month_matches",
                 "endpoint": {
-                    "path": futureMatchesPath
-                }
-            },
-            {
-                "name": "past_matches_by_date",
-                "endpoint": {
-                    "path": pastMatchesPath
+                    "path": pastMonthMatchesPath
                 }
             },
             {

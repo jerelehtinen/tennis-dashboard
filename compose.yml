@@ -4,29 +4,29 @@ services:
       context: .
       dockerfile: dockerfile-dlt
     volumes:
-      - ./data:/data
+      - ./data/tennisdb.duckdb:/data/tennisdb.duckdb
       - ./dlt_project:/app/dlt_project
     stdin_open: true  # interactive session
     tty: true         # open terminal
-    command: bash
+    command: python dlt_project/pipeline.py
 
   dbt:
     build:
       context: .
       dockerfile: dockerfile-dbt
     volumes:
-      - ./data:/data
+      - ./data/tennisdb.duckdb:/data/tennisdb.duckdb
       - ./dbt_project:/app/dbt_project
     stdin_open: true  # interactive session
     tty: true         # open terminal
-    command: bash
+    command: dbt build
 
   streamlit:
     build:
       context: .
       dockerfile: dockerfile-streamlit
     volumes:
-      - ./data:/data
+      - ./data/tennisdb.duckdb:/data/tennisdb.duckdb
       - ./streamlit_project:/app/streamlit_project
     ports:
       - "8501:8501"
