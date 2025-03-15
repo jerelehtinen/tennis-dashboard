@@ -32,6 +32,7 @@ services:
       - "8501:8501"
     volumes:
       - ./streamlit_project:/app/streamlit_project
+      - ./data/tennisdb.duckdb:/data/tennisdb.duckdb
     stdin_open: true
     tty: true
     depends_on:
