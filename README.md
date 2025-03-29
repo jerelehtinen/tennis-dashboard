@@ -21,3 +21,5 @@ To individual container:
 - `docker-compose up dbt`
 - `docker-compose up streamlit`
 
+
+TODO: write better readme
