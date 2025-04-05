@@ -1,6 +1,7 @@
 import streamlit as st
 import duckdb
 from utils.logger import logger
+from utils.filters import add_filters
 
 
 def read_data_to_df(sql_query: str) -> "pandas.DataFrame":
@@ -16,7 +17,7 @@ def read_data_to_df(sql_query: str) -> "pandas.DataFrame":
 
     return df
 
-
+@st.cache_data
 def save_data_to_session_state() -> None:
     """
     Read game_data and player data from the database and store it in the session state.
@@ -39,7 +40,9 @@ def save_data_to_session_state() -> None:
 if __name__ == "__main__":
     st.set_page_config(page_title="Tennis Dashboard 🎾", layout="wide")
     st.title('Analysis 📊')
-    save_data_to_session_state()
 
-    df = st.session_state["game_data"]
-    st.write(df)
+    # data prep
+    save_data_to_session_state()
+    filtered_game_df = add_filters(st.session_state["game_data"], st.session_state["player_data"])
+    
+    st.write(filtered_game_df)

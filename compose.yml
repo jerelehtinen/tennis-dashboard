@@ -10,6 +10,17 @@ services:
     tty: true         # open terminal
     command: python dlt_project/pipeline.py
 
+  dataload:
+    build:
+      context: .
+      dockerfile: dockerfile-dataload
+    volumes:
+      - ./data/tennisdb.duckdb:/data/tennisdb.duckdb
+      - ./dataload:/app/dataload
+    stdin_open: true  # interactive session
+    tty: true         # open terminal
+    command: python dlt_project/pipeline.py
+
   dbt:
     build:
       context: .
