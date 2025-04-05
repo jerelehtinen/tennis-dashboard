@@ -1,5 +1,6 @@
 import streamlit as st
-
+from utils.logger import logger
+from utils.filters import add_filters
 
 
 def show_kpis(df):
@@ -17,43 +18,19 @@ def show_kpis(df):
     st.line_chart(matches_per_day.set_index("start_date"))
 
 
-def date_filter():
-    # Create a date filter
-    st.sidebar.header("Filter by Date Range")
-    min_date = df["start_date"].min()
-    max_date = df["start_date"].max()
-
-    date_range = st.sidebar.date_input(
-        "Select Date Range", 
-        [min_date, max_date], 
-        min_value=min_date, 
-        max_value=max_date
-    )
-
-    # filter df only if both dates are selected
-    filtered_df = df
-    if(len(date_range) == 2):    
-        filtered_df = df[
-            (df["start_date"].dt.date >= date_range[0]) & (df["start_date"].dt.date <= date_range[1])
-        ]
-
-    return filtered_df
-
-
-def player_filter():
-    st.sidebar.header("Filter by Player")
-
 if __name__ == "__main__":
     st.title("Data quality")
-    st.write("Validate data quality")
 
-    if "data" in st.session_state:
-        df = st.session_state["data"]
+    if "game_data" and "player_data" in st.session_state:
+        game_data_df = st.session_state["game_data"]
+        player_data_df = st.session_state["player_data"]
+ 
+        # add filters
+        filtered_game_data_df = add_filters(game_data_df, player_data_df)
 
-        # filter data
-        filtered_df = date_filter()
-        st.write(filtered_df)
+        st.subheader("Game data")
 
-        show_kpis(filtered_df)
-
+        # show filtered game data
+        st.write(filtered_game_data_df)
+        show_kpis(filtered_game_data_df)
     
